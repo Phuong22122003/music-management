@@ -1,72 +1,121 @@
 <ngx-datatable
-[rows]="rows"
-[columns]="columns"
-class="material"
-columnMode="force"
-rowHeight="auto"
-[headerHeight]="50"
-[footerHeight]="50"
+  [rows]="rows"
+  [columns]="columns"
+  class="material"
+  columnMode="force"
+  rowHeight="auto"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  (activate)="onActivate($event)"
 >
-
 </ngx-datatable>
 
 <ng-template #title let-row="row" let-value="value" ngx-datatable-cell-template>
-    <div class="flex items-center" style="gap: 10px;" 
-        (mouseover)="showPlayButton(row)"
-        (mouseleave)="hidePlayButton()"
-        >
-        <div>
-            <input style="width: 22px; height: 22px; accent-color: black;" type="checkbox">
-        </div>
-        <div style="width: 48px;    height: 48px;" class="relative">
-            <ng-container *ngIf="row==isPlayedByRow then hover"></ng-container>
-            <img style="border-radius: 10px;" src="./assets/images/avatar.jpg" alt="">
-        </div>
-        <div class="flex flex-col">
-            <a href="">{{value.name}}</a>
-            <a href="">{{value.author}}</a>
-        </div>
+  <div
+    class="flex items-center relative"
+    style="gap: 10px"
+    (mouseover)="showPlayButton(row)"
+    (mouseleave)="hidePlayButton()"
+  >
+    <div>
+      <input
+        style="width: 22px; height: 22px; accent-color: black"
+        type="checkbox"
+      />
     </div>
+    <div style="width: 48px; height: 48px" class="relative">
+      <ng-container *ngIf="row == isPlayedByRow"
+        ><ng-container
+          *ngTemplateOutlet="hover; context: { row: row, value: value }"
+        ></ng-container
+      ></ng-container>
+      <img style="border-radius: 10px" [src]="value.imageUrl" alt="" />
+    </div>
+    <div class="flex flex-col">
+      <a href="">{{ value.name }}</a>
+      <a href="">{{ value.author }}</a>
+    </div>
+  </div>
 </ng-template>
 
-<ng-template #hover>
-    <div class="hover">
-        <div style="border-radius: 50%; padding: 5px 10px; background-color: black;" class="cursor-pointer">
-            <i class="fa-solid fa-play"  style="color: white;"></i>
-        </div>
+<ng-template #hover let-row="row" let-value="value" ngx-datatable-cell-template>
+  <div class="hover">
+    <div
+      style="border-radius: 50%; padding: 5px 10px; background-color: black"
+      class="cursor-pointer"
+    >
+      <i class="fa-solid fa-play" style="color: white"></i>
     </div>
+  </div>
 </ng-template>
 
-<ng-template #engagements let-row="row" let-value="value" ngx-datatable-cell-template>
-    <div class="flex items-center justify-around">
-        <div class="cursor-pointer">
-            <i class="fa-regular fa-heart"></i>
-            <span class="ml-1">1</span>
-        </div>
-        <div class="cursor-pointer">
-            <i class="fa-regular fa-comment"></i>
-            <span class="ml-1">1</span>
-        </div>
+<ng-template
+  #engagements
+  let-row="row"
+  let-value="value"
+  ngx-datatable-cell-template
+>
+  <div class="flex items-center justify-around">
+    <div class="cursor-pointer">
+      <i class="fa-regular fa-heart"></i>
+      <span class="ml-1">{{ value.like }}</span>
     </div>
+    <div class="cursor-pointer">
+      <i class="fa-regular fa-comment"></i>
+      <span class="ml-1">{{ value.comment }}</span>
+    </div>
+  </div>
 </ng-template>
-<ng-template #action let-row="row" let-value="value" ngx-datatable-cell-template>
-    <div data-type="dropdow-icon" style="width: 20px; text-align: center;" class=" cursor-pointer" (click)="showDropDow(row,$event)" >
-        <i data-type="dropdow-icon" dropdow class="fa-solid fa-ellipsis-vertical"></i>
-        <ng-container *ngIf="isShowDropdowByRow==row then dropdow"></ng-container>
-    </div>
+<ng-template
+  #action
+  let-row="row"
+  let-value="value"
+  ngx-datatable-cell-template
+>
+  <div
+    data-type="dropdow-icon"
+    style="width: 20px; text-align: center"
+    class="cursor-pointer"
+    (click)="showDropDow(row, $event)"
+  >
+    <i
+      data-type="dropdow-icon"
+      dropdow
+      class="fa-solid fa-ellipsis-vertical"
+    ></i>
+    <ng-container
+      *ngIf="isShowDropdowByRow == row; then dropdow"
+    ></ng-container>
+  </div>
 </ng-template>
 
-<ng-template #dropdow>
-    <div class="dropdow" [ngStyle]="dropdownStyles">
-        <ul>
-            <li (click)="showEdit()"><i class="fa-solid fa-pen"></i> Modifier</li>
-            <li><i class="fa-solid fa-trash"></i> Delete Item</li>
-        </ul>
-    </div>
+<ng-template
+  #dropdow
+  let-row="row"
+  let-value="value"
+  ngx-datatable-cell-template
+>
+  <div class="dropdow" [ngStyle]="dropdownStyles">
+    <ul>
+      <li (click)="showEdit()"><i class="fa-solid fa-pen"></i> Modifier</li>
+      <li (click)="onDelete()">
+        <i class="fa-solid fa-trash"></i> Delete Item
+      </li>
+    </ul>
+  </div>
 </ng-template>
 
 <ng-container *ngIf="isShowedEdit">
-    <app-edit-bar
-        (onClickOutsideEdit)="hideEdit()"
-    ></app-edit-bar>
+  <app-edit-bar
+    style="z-index: 9999"
+    [title]="selectedRow['title']['name']"
+    [imageUrl]="selectedRow['title']['imageUrl']"
+    [description]="selectedRow['description']"
+    [mainArtists]="selectedRow['mainArtist']"
+    [privacy]="selectedRow['isPublic'] ? 'public' : 'private'"
+    [id]="selectedRow['idTrack']"
+    (onClickOutsideEdit)="hideEdit()"
+    (updateSuccess)="fetchTrack()"
+    class="relative"
+  ></app-edit-bar>
 </ng-container>

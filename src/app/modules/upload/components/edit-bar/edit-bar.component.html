@@ -20,12 +20,7 @@
           (change)="onFileSelected($event)"
         />
         <div class="border-8 border-gray-500">
-          <img
-            class="w-[150px] h-[150px]"
-            src="./assets/images/avatar.jpg"
-            alt=""
-            #thumbnail
-          />
+          <img class="w-[150px] h-[150px]" [src]="imageUrl" alt="" #thumbnail />
         </div>
         <div class="flex flex-col items-center justify-end gap-2.5">
           <div
@@ -113,6 +108,7 @@
           [disabled]="editFrom.invalid"
           [class.invalid-button]="editFrom.invalid"
           class="save-button"
+          (click)="onSubmit()"
         >
           Save Change
         </button>

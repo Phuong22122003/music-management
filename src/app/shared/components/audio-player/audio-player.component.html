@@ -1,0 +1,46 @@
+<div
+  class="fixed bottom-0 w-full bg-black p-4 flex items-center gap-4 text-white"
+  [ngClass]="{
+    'opacity-0': !isShow
+  }"
+>
+  <!-- Nút Play/Pause -->
+  <button
+    (click)="togglePlay()"
+    class="p-2 w-[40px] h-[40px] rounded-full bg-gray-800"
+  >
+    <i
+      class="fa-solid"
+      [ngClass]="{ 'fa-play': isPaused, 'fa-pause': !isPaused }"
+    ></i>
+  </button>
+
+  <!-- Thanh progress -->
+  <input
+    type="range"
+    class="w-[80%] h-1 bg-gray-600 rounded-lg appearance-none"
+    [(ngModel)]="progress"
+    (input)="seekAudio($event)"
+  />
+
+  <!-- Thời gian phát -->
+  <span>{{ formatDuration(currentTime) }}</span>
+
+  <!-- Tổng thời gian -->
+  <span>{{ formatDuration(duration) }}</span>
+
+  <!-- Tiêu đề bài hát -->
+  <div class="ml-4">
+    <strong>{{ trackTitle }}</strong>
+    <p class="text-gray-400 text-sm">{{ artist }}</p>
+  </div>
+</div>
+
+<audio
+  #audioPlayer
+  (timeupdate)="updateProgress()"
+  (loadedmetadata)="setDuration()"
+>
+  <source [src]="audioUrl" type="audio/mpeg" />
+  Your browser does not support the audio tag.
+</audio>

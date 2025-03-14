@@ -7,21 +7,23 @@ import { TracksComponent } from './components/tracks/tracks.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { EditBarComponent } from './components/edit-bar/edit-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { AudioPlayerComponent } from '../../shared/components/audio-player/audio-player.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
     UploadComponent,
     HeaderComponent,
     TracksComponent,
-    EditBarComponent
+    EditBarComponent,
   ],
   imports: [
     CommonModule,
     UploadRoutingModule,
     NgxDatatableModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    SharedModule,
   ],
 })
-export class UploadModule { }
+export class UploadModule {}
