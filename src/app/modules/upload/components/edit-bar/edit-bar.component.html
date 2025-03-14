@@ -1,0 +1,137 @@
+<div class="flex w-full h-full fixed top-0 left-0" style="justify-content: end">
+  <div
+    (click)="onClickOutside()"
+    style="background-color: rgb(144, 142, 142); opacity: 0.5; flex-grow: 1"
+  ></div>
+  <div class="w-2/5 h-full bg-white opacity-100 fixed top-0 right-0">
+    <div class="relative h-full">
+      <div class="header py-[30px] px-5 border-b border-black">
+        <span (click)="onClickOutside()" class="cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+        <span class="font-bold ml-2.5"> Edit Your track </span>
+      </div>
+      <div class="flex justify-center mt-2.5 gap-4">
+        <input
+          type="file"
+          style="display: none"
+          accept="image/*"
+          #inputFile
+          (change)="onFileSelected($event)"
+        />
+        <div class="border-8 border-gray-500">
+          <img
+            class="w-[150px] h-[150px]"
+            src="./assets/images/avatar.jpg"
+            alt=""
+            #thumbnail
+          />
+        </div>
+        <div class="flex flex-col items-center justify-end gap-2.5">
+          <div
+            class="rounded-full px-2.5 py-1.5 border border-gray-500 cursor-pointer"
+            (click)="uploadImage()"
+          >
+            <i class="fa-solid fa-pen"></i>
+          </div>
+          <div
+            class="rounded-full px-2.5 py-1.5 border border-gray-500 cursor-pointer"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5">
+        <form [formGroup]="editFrom" class="form">
+          <div class="form-group">
+            <label for="title">Title Name</label>
+            <input
+              type="text"
+              id="title"
+              class="form-control"
+              formControlName="title"
+              placeholder="Enter your title"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Title is required',
+                control: editFrom.controls['title']
+              }"
+            ></ng-container>
+          </div>
+          <div class="form-group">
+            <label for="">Main Artist</label>
+            <input
+              type="text"
+              id="main-artists"
+              class="form-control"
+              formControlName="main_artists"
+              placeholder="Enter main artists"
+            />
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input
+              type="text"
+              id="description"
+              class="form-control"
+              formControlName="description"
+              placeholder="Enter your description"
+            />
+          </div>
+          <div class="form-group" style="border: none">
+            <label for="">Privacy</label>
+            <div class="flex gap-[5%]">
+              <div>
+                <input
+                  type="radio"
+                  name="privacy"
+                  id="private"
+                  formControlName="privacy"
+                  value="private"
+                />
+                <label class="ml-2" for="private">Private</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="privacy"
+                  id="public"
+                  formControlName="privacy"
+                  value="public"
+                />
+                <label class="ml-2" for="public">Public</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="footer">
+        <button
+          [disabled]="editFrom.invalid"
+          [class.invalid-button]="editFrom.invalid"
+          class="save-button"
+        >
+          Save Change
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && control.dirty && control.touched"
+  >
+    <div class="mb-1">
+      <span class="text-[red] text-sm mt-2 pd">{{ message }}</span>
+    </div>
+  </ng-container>
+</ng-template>

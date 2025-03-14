@@ -1,0 +1,38 @@
+.form{
+    margin: 10px;
+    height: 100%;
+}
+.form-group{
+    display: flex;
+    flex-direction: column;
+    border-bottom:1px solid rgb(195, 195, 195) ;
+    gap: 7px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+.form-control:focus{
+    outline: none;
+}
+.form-control{
+    width: 100%;
+}
+
+.footer{
+    position: absolute ;
+    bottom: 10px;
+    right: 0px;
+    display: flex;
+    padding: 10px 20px;
+}
+
+.save-button{
+    background-color: black;
+    color: white;
+    border-radius: 30px;
+    padding: 8px 20px;
+}
+
+.invalid-button{
+    background-color: gray;
+    // cursor: not-allowed;
+}

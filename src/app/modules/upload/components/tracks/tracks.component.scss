@@ -1,0 +1,25 @@
+::ng-deep .ngx-datatable.material{
+    box-shadow: none;
+}
+
+.hover{
+    position: absolute;
+    top:20%;
+    left: 15%;
+}
+
+.dropdow{
+    position: fixed;
+    z-index: 100;
+}
+ul{
+    background-color: rgb(220, 220, 220);
+    padding: 10px;
+    width: 150px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
+    gap: 10px;
+}
