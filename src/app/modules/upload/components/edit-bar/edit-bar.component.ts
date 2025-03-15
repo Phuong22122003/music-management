@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  Renderer2,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -31,13 +32,28 @@ export class EditBarComponent implements OnInit {
 
   @ViewChild('inputFile', { static: true }) inputFile!: ElementRef<any>;
   @ViewChild('thumbnail', { static: true }) thumbnail!: ElementRef<any>;
+  @ViewChild('modal', { static: true }) modal!: ElementRef<any>;
+  @ViewChild('dropdown', { static: true }) dropdown!: ElementRef<any>;
+
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private renderer: Renderer2
   ) {}
   onClickOutside() {
-    this.onClickOutsideEdit.emit(true);
+    console.log(this.modal);
+    this.renderer.addClass(this.modal.nativeElement, 'animation-disappear');
+    this.renderer.removeClass(this.modal.nativeElement, 'animation-appear');
+    this.renderer.setStyle(this.dropdown.nativeElement, 'opacity', '0');
+    this.renderer.setStyle(
+      this.dropdown.nativeElement,
+      'background-color',
+      '#FFF'
+    );
+    setTimeout(() => {
+      this.onClickOutsideEdit.emit(true);
+    }, 500);
   }
   ngOnInit(): void {
     this.editFrom = this.formBuilder.group({
@@ -89,7 +105,7 @@ export class EditBarComponent implements OnInit {
     this.trackService.updateTrack(this.id, formData).subscribe({
       next: (value) => {
         console.log(value);
-        this.onClickOutsideEdit.emit(true);
+        this.onClickOutside();
         this.updateSuccess.emit();
       },
       error: (err) => {

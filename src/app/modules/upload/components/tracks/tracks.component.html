@@ -39,12 +39,15 @@
 </ng-template>
 
 <ng-template #hover let-row="row" let-value="value" ngx-datatable-cell-template>
-  <div class="hover">
+  <div class="hover" (click)="onPlayAudio(row)">
     <div
       style="border-radius: 50%; padding: 5px 10px; background-color: black"
       class="cursor-pointer"
     >
-      <i class="fa-solid fa-play" style="color: white"></i>
+      <i
+        [class]="isPlay ? 'fa-solid fa-pause' : 'fa-solid fa-play'"
+        style="color: white"
+      ></i>
     </div>
   </div>
 </ng-template>

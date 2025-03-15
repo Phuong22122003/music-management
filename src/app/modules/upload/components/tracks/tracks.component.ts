@@ -21,6 +21,8 @@ export class TracksComponent implements OnInit {
   columns: any;
   trackList: Track[] = [];
   selectedRow: any;
+  isPlay: boolean = false;
+  urlPlaying: string = '';
   @ViewChild('title', { static: true }) titleRef!: TemplateRef<any>;
   @ViewChild('engagements', { static: true }) engagementsRef!: TemplateRef<any>;
   @ViewChild('action', { static: true }) actionRef!: TemplateRef<any>;
@@ -39,6 +41,11 @@ export class TracksComponent implements OnInit {
       { name: '', prop: '', cellTemplate: this.actionRef },
     ];
     this.fetchTrack();
+    this.trackService.trackPlay.subscribe((trackInfo) => {
+      console.log(trackInfo);
+      this.isPlay = trackInfo.isPlay;
+      this.urlPlaying = trackInfo.trackUrl;
+    });
   }
   formatDuration(duration: string): string {
     const parts = duration.split(':');
@@ -64,10 +71,10 @@ export class TracksComponent implements OnInit {
     this.isPlayedByRow = null;
   }
   isShowDropdowByRow: any = null;
-  dropdownStyles = { left: '0px', position: 'fixed' };
+  dropdownStyles: any = { left: '0px', position: 'fixed' };
   showDropDow(row: any, event: MouseEvent) {
     this.isShowDropdowByRow = row;
-    console.log(this.isShowDropdowByRow);
+
     this.dropdownStyles = {
       position: 'fixed',
       // top: `${event.clientY}px`,  // Lấy vị trí Y của chuột
@@ -82,8 +89,8 @@ export class TracksComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
     const target = event.target as HTMLElement;
-    // console.log(target);
     // if(this.isShowDropdowByRow!=null )
+
     if (
       this.isShowDropdowByRow != null &&
       target.tagName.toLocaleLowerCase() !== 'div' &&
@@ -96,12 +103,6 @@ export class TracksComponent implements OnInit {
   onActivate(event: any) {
     if (event.type === 'click') {
       this.selectedRow = event.row;
-      console.log(this.selectedRow);
-      this.trackService.trackPlay.next({
-        trackName: this.selectedRow['title']['name'],
-        trackUrl: this.selectedRow['urlTrack'],
-        username: this.selectedRow['title']['author'],
-      });
     }
   }
   fetchTrack() {
@@ -145,8 +146,18 @@ export class TracksComponent implements OnInit {
       },
     });
   }
-  // onPlayAudio(value: any) {
-  //   console.log(value);
-  //   this.trackService.trackPlay(value[])
-  // }
+  onPlayAudio(value: any) {
+    if (this.urlPlaying !== value['urlTrack']) {
+      this.isPlay = true;
+    } else {
+      this.isPlay = !this.isPlay;
+    }
+    console.log(this.isPlay);
+    this.trackService.trackPlay.next({
+      trackName: value['title']['name'],
+      trackUrl: value['urlTrack'],
+      username: value['title']['author'],
+      isPlay: this.isPlay,
+    });
+  }
 }

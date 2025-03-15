@@ -14,6 +14,7 @@ export class TrackService {
     trackUrl: string;
     username: string;
     trackName: string;
+    isPlay: boolean;
   }>();
   getTrackList(): Observable<ApiResponse<Track[]>> {
     return this.http.get<ApiResponse<Track[]>>(this.apiUrl);

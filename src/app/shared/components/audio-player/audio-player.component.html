@@ -1,5 +1,5 @@
 <div
-  class="fixed bottom-0 w-full bg-black p-4 flex items-center gap-4 text-white"
+  class="modal fixed bottom-0 w-full bg-[#121212] p-4 flex items-center gap-4 text-white"
   [ngClass]="{
     'opacity-0': !isShow
   }"
@@ -7,23 +7,30 @@
   <!-- Nút Play/Pause -->
   <button
     (click)="togglePlay()"
-    class="p-2 w-[40px] h-[40px] rounded-full bg-gray-800"
+    class="p-2 w-[40px] h-[40px] rounded-full bg-black cursor-pointer hover:bg-[#666666]"
   >
     <i
       class="fa-solid"
-      [ngClass]="{ 'fa-play': isPaused, 'fa-pause': !isPaused }"
+      [ngClass]="{ 'fa-play': !isPlay, 'fa-pause': isPlay }"
     ></i>
   </button>
 
   <!-- Thanh progress -->
-  <input
-    type="range"
-    class="w-[80%] h-1 bg-gray-600 rounded-lg appearance-none"
-    [(ngModel)]="progress"
-    (input)="seekAudio($event)"
-  />
+  <div class="relative w-4/5 flex items-center">
+    <input
+      type="range"
+      #audioProcess
+      class="audio w-full h-[2px] bg-gray-600 rounded-lg appearance-none cursor-pointer"
+      [(ngModel)]="progress"
+      (input)="seekAudio($event)"
+    />
+    <div
+      #processBar
+      class="bg-[#ff5500] left-0 top-1/2 -translate-y-1/2 h-[2px] w-full absolute"
+    ></div>
+  </div>
 
-  <!-- Thời gian phát -->
+  <!--Thời gian phát -->
   <span>{{ formatDuration(currentTime) }}</span>
 
   <!-- Tổng thời gian -->

@@ -11,9 +11,15 @@
 .dropdow{
     position: fixed;
     z-index: 100;
+    border-radius:6px;
+    box-shadow:
+    0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 ul{
-    background-color: rgb(220, 220, 220);
+    background-color: #fff;
+    border-radius: 6px;
     padding: 10px;
     width: 150px;
     height: 70px;
@@ -22,4 +28,7 @@ ul{
     align-items: start;
     justify-content: space-around;
     gap: 10px;
+
+    transform-origin: top right;
 }
+
