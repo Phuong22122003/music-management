@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { TrackService } from '../../../../core/services/track.service';
 import { selectRows } from '@swimlane/ngx-datatable';
+import { ToastService } from '../../../../core/services/toast.service';
 @Component({
   selector: 'app-edit-bar',
   standalone: false,
@@ -39,7 +40,8 @@ export class EditBarComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private trackService: TrackService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private toastService: ToastService
   ) {}
   onClickOutside() {
     console.log(this.modal);
@@ -107,9 +109,17 @@ export class EditBarComponent implements OnInit {
         console.log(value);
         this.onClickOutside();
         this.updateSuccess.emit();
+        this.toastService.toastSuccess.next({
+          summary: 'Success',
+          message: 'Update track successfully!',
+        });
       },
       error: (err) => {
         console.log(err);
+        this.toastService.toastSuccess.next({
+          summary: 'Error',
+          message: err.message,
+        });
       },
     });
     // Gửi dữ liệu lên backend qua API

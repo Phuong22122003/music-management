@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { TrackService } from '../../../../core/services/track.service';
 import { Track } from '../../../../core/models/track';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-tracks',
@@ -26,7 +27,10 @@ export class TracksComponent implements OnInit {
   @ViewChild('title', { static: true }) titleRef!: TemplateRef<any>;
   @ViewChild('engagements', { static: true }) engagementsRef!: TemplateRef<any>;
   @ViewChild('action', { static: true }) actionRef!: TemplateRef<any>;
-  constructor(private trackService: TrackService) {}
+  constructor(
+    private trackService: TrackService,
+    private toastService: ToastService
+  ) {}
   ngOnInit(): void {
     this.columns = [
       { name: 'TITLE', prop: 'title', cellTemplate: this.titleRef },
@@ -141,7 +145,10 @@ export class TracksComponent implements OnInit {
     console.log(this.selectedRow['idTrack']);
     this.trackService.deleteTrack(this.selectedRow['idTrack']).subscribe({
       next: (value) => {
-        console.log(value);
+        this.toastService.toastSuccess.next({
+          message: 'Delete track successfully!',
+          summary: 'Success',
+        });
         this.fetchTrack();
       },
     });

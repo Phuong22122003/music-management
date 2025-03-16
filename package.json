@@ -21,6 +21,7 @@
     "@swimlane/ngx-datatable": "^21.0.0-alpha.1",
     "@tailwindcss/postcss": "^4.0.14",
     "music-web": "file:",
+    "ngx-toastr": "^19.0.0",
     "postcss": "^8.5.3",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.0.14",
