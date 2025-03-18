@@ -23,7 +23,7 @@
         type="checkbox"
       />
     </div>
-    <div style="width: 48px; height: 48px" class="relative">
+    <div id="play-on-track" style="width: 48px; height: 48px" class="relative">
       <ng-container *ngIf="row == isPlayedByRow"
         ><ng-container
           *ngTemplateOutlet="hover; context: { row: row, value: value }"
@@ -32,8 +32,8 @@
       <img style="border-radius: 10px" [src]="value.imageUrl" alt="" />
     </div>
     <div class="flex flex-col">
-      <a href="">{{ value.name }}</a>
-      <a href="">{{ value.author }}</a>
+      <a id="name-track" href="">{{ value.name }}</a>
+      <a id="author-track" href="">{{ value.author }}</a>
     </div>
   </div>
 </ng-template>
@@ -58,7 +58,7 @@
   let-value="value"
   ngx-datatable-cell-template
 >
-  <div class="flex items-center justify-around">
+  <div class="flex items-center justify-start gap 2">
     <div class="cursor-pointer">
       <i class="fa-regular fa-heart"></i>
       <span class="ml-1">{{ value.like }}</span>
@@ -82,6 +82,7 @@
     (click)="showDropDow(row, $event)"
   >
     <i
+      id="edit"
       data-type="dropdow-icon"
       dropdow
       class="fa-solid fa-ellipsis-vertical"
@@ -100,7 +101,9 @@
 >
   <div class="dropdow" [ngStyle]="dropdownStyles">
     <ul>
-      <li (click)="showEdit()"><i class="fa-solid fa-pen"></i> Modifier</li>
+      <li id="modifier" (click)="showEdit()">
+        <i class="fa-solid fa-pen"></i> Modifier
+      </li>
       <li (click)="onDelete()">
         <i class="fa-solid fa-trash"></i> Delete Item
       </li>

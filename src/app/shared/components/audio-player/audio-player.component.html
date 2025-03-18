@@ -23,6 +23,8 @@
       class="audio w-full h-[2px] bg-gray-600 rounded-lg appearance-none cursor-pointer"
       [(ngModel)]="progress"
       (input)="seekAudio($event)"
+      (focus)="isSliderFocused = true"
+      (blur)="isSliderFocused = false"
     />
     <div
       #processBar
@@ -44,10 +46,11 @@
 </div>
 
 <audio
+  id="audio"
   #audioPlayer
   (timeupdate)="updateProgress()"
   (loadedmetadata)="setDuration()"
 >
-  <source [src]="audioUrl" type="audio/mpeg" />
+  <source id="source-audio" [src]="audioUrl" type="audio/mpeg" />
   Your browser does not support the audio tag.
 </audio>

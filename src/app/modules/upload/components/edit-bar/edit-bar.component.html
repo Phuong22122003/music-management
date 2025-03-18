@@ -10,7 +10,7 @@
   >
     <div class="relative h-full">
       <div class="header py-[30px] px-5 border-b border-black">
-        <span (click)="onClickOutside()" class="cursor-pointer">
+        <span (click)="onClickOutside()" class="close-button cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </span>
         <span class="font-bold ml-2.5"> Edit Your track </span>
@@ -137,11 +137,11 @@
   let-message="message"
   let-validation="validation"
 >
-  <ng-container
-    *ngIf="control.hasError(validation) && control.dirty && control.touched"
-  >
+  <ng-container *ngIf="control.hasError(validation) && control.dirty">
     <div class="mb-1">
-      <span class="text-[red] text-sm mt-2 pd">{{ message }}</span>
+      <span id="error-message" class="text-[red] text-sm mt-2 pd">{{
+        message
+      }}</span>
     </div>
   </ng-container>
 </ng-template>

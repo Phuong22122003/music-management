@@ -27,6 +27,8 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   progress = 0;
   currentTime = 0;
   duration = 86;
+  isSliderFocused = false;
+
   togglePlay() {
     const audio = this.audioPlayer.nativeElement;
     if (audio.paused) {
@@ -98,13 +100,17 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.trackService.trackPlay.unsubscribe();
   }
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.code === 'Space') {
-      event.preventDefault();
-      this.togglePlay();
+  // @HostListener('window:keydown', ['$event'])
+  // handleKeyDown(event: KeyboardEvent) {
+  //   if (event.code === 'Space') {
+  //     if (this.isSliderFocused) {
+  //       // Nếu input đang focus, không xử lý phím Space
+  //       return;
+  //     }
 
-      console.log('Space pressed! Audio toggled.');
-    }
-  }
+  //     event.preventDefault();
+  //     this.togglePlay();
+  //     console.log('Space pressed! Audio toggled.');
+  //   }
+  // }
 }
