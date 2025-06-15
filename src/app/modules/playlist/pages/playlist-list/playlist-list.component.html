@@ -1,0 +1,60 @@
+<div class="p-4">
+  <button (click)="onAdd()" class="bg-green-600 text-white px-4 py-2 rounded mb-4 hover:bg-green-700">
+    Thêm playlist
+  </button>
+
+<ul class="space-y-2">
+  <li *ngFor="let playlist of playlists" class="p-4 border rounded">
+    <div class="flex justify-between items-center">
+      <div>
+        <strong>{{ playlist.name }}</strong> <br />
+        <span class="text-sm text-gray-500">({{ playlist.tracks?.length || 0 }} bài hát)</span>
+      </div>
+      <div class="space-x-2">
+        <button (click)="toggleExpand(playlist.id)" class="bg-blue-500 text-white px-2 py-1 rounded">
+          {{ expandedPlaylistId === playlist.id ? 'Ẩn' : 'Chi tiết' }}
+        </button>
+        <button (click)="onEdit(playlist)" class="bg-yellow-400 px-3 py-1 rounded">Sửa</button>
+        <button (click)="onDelete(playlist)" class="bg-red-500 text-white px-3 py-1 rounded">Xóa</button>
+      </div>
+    </div>
+
+    <!-- 👇 Đây là phần chi tiết mở rộng -->
+    <div *ngIf="expandedPlaylistId === playlist.id" class="mt-3 border-t pt-3 space-y-3">
+      <div class="flex gap-4">
+        <img
+          *ngIf="playlist.imageName"
+          [src]="'http://localhost:8080/api/v1/tracks/images/' + playlist.imageName"
+          alt="Ảnh playlist"
+          class="w-24 h-24 object-cover rounded"
+        />
+        <div>
+          <p class="text-gray-700 text-sm"><strong>Mô tả:</strong> {{ playlist.description || 'Không có mô tả' }}</p>
+          <p class="text-gray-500 text-xs">Tạo bởi: {{ playlist.userEmail }}</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-sm mb-1">Danh sách bài hát:</h4>
+        <ul class="list-disc list-inside text-sm text-gray-800">
+          <li *ngFor="let track of playlist.tracks">
+            {{ track.nameTrack }} - {{ track.mainArtist }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </li>
+</ul>
+
+</div>
+
+<!-- Modal -->
+<div *ngIf="showForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded shadow-lg w-full max-w-xl">
+    <app-playlist-form
+      [playlist]="selectedPlaylist"
+      (cancel)="onCancel()"
+      (saveSuccess)="onSaveSuccess()"
+    ></app-playlist-form>
+  </div>
+</div>

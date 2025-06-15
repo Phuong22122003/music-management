@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { TracksComponent } from './components/tracks/tracks.component';
 
 @Component({
   selector: 'app-upload',
@@ -7,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrl: './upload.component.scss'
 })
 export class UploadComponent {
+  
+  @ViewChild(TracksComponent) tracksComponent!: TracksComponent;
+  showForm = false;
 
+  toggleForm() {
+    this.showForm = !this.showForm;
+  }
+
+  handleUploadSuccess() {
+    this.showForm = false;
+    this.tracksComponent.fetchTrack();
+  }
 }

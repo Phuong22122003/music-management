@@ -1,0 +1,49 @@
+<div class="p-4">
+  <!-- Thêm thể loại -->
+  <button 
+    (click)="onAdd()" 
+    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded mb-4"
+  >
+    + Thêm thể loại
+  </button>
+
+  <!-- Danh sách thể loại -->
+  <ul class="space-y-3">
+    <li 
+      *ngFor="let genre of genres" 
+      class="flex items-center justify-between bg-white p-4 rounded shadow"
+    >
+      <div>
+        <p class="font-semibold text-lg text-gray-800">{{ genre.name }}</p>
+        <p class="text-sm text-gray-500">
+          {{ genre.tracks?.length || 0 }} bài hát
+        </p>
+      </div>
+      <div class="space-x-2">
+        <button 
+          (click)="onEdit(genre)" 
+          class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded"
+        >
+          Sửa
+        </button>
+        <button 
+          (click)="onDelete(genre)" 
+          class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+        >
+          Xóa
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Modal -->
+<div *ngIf="showForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
+    <app-genre-form
+      [genre]="selectedGenre"
+      (cancel)="onCancel()"
+      (saveSuccess)="onSaveSuccess()"
+    ></app-genre-form>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto space-y-4"
+>
+  <h2 class="text-xl font-bold">
+    {{ playlist ? "Cập nhật Playlist" : "Tạo Playlist" }}
+  </h2>
+
+  <div>
+    <label class="block font-medium">Tên playlist *</label>
+    <input
+      type="text"
+      formControlName="name"
+      class="w-full p-2 border rounded"
+    />
+    <div
+      *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+      class="text-red-500 text-sm"
+    >
+      Tên playlist là bắt buộc
+    </div>
+  </div>
+
+  <div>
+    <label class="block font-medium">Mô tả</label>
+    <textarea
+      formControlName="description"
+      class="w-full p-2 border rounded"
+    ></textarea>
+  </div>
+
+  <div>
+    <label class="block font-medium">Ảnh playlist</label>
+    <input type="file" (change)="onFileChange($event)" class="w-full" />
+  </div>
+  <div>
+    <label class="block font-medium mb-1">Chọn bài hát thêm vào playlist</label>
+    <div class="max-h-60 overflow-y-auto border rounded p-3 space-y-1">
+      <label *ngFor="let track of tracks" class="block text-sm">
+        <input
+          type="checkbox"
+          [value]="track.idTrack"
+          [checked]="selectedTrackIds.includes(track.idTrack)"
+          (change)="toggleTrack(track.idTrack, $event)"
+          class="mr-2"
+        />
+        {{ track.nameTrack }} - {{ track.mainArtist }}
+      </label>
+    </div>
+  </div>
+
+  <div class="flex justify-end gap-2">
+    <button
+      type="submit"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+    >
+      {{ playlist ? "Cập nhật" : "Tạo mới" }}
+    </button>
+    <button
+      type="button"
+      (click)="onCancel()"
+      class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+    >
+      Hủy
+    </button>
+  </div>
+</form>

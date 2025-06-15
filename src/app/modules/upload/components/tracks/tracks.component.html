@@ -58,7 +58,7 @@
   let-value="value"
   ngx-datatable-cell-template
 >
-  <div class="flex items-center justify-start gap 2">
+  <div class="flex items-center justify-start gap-4">
     <div class="cursor-pointer">
       <i class="fa-regular fa-heart"></i>
       <span class="ml-1">{{ value.like }}</span>
@@ -69,47 +69,29 @@
     </div>
   </div>
 </ng-template>
+
 <ng-template
   #action
   let-row="row"
   let-value="value"
   ngx-datatable-cell-template
 >
-  <div
-    data-type="dropdow-icon"
-    style="width: 20px; text-align: center"
-    class="cursor-pointer"
-    (click)="showDropDow(row, $event)"
-  >
-    <i
-      id="edit"
-      data-type="dropdow-icon"
-      dropdow
-      class="fa-solid fa-ellipsis-vertical"
-    ></i>
-    <ng-container
-      *ngIf="isShowDropdowByRow == row; then dropdow"
-    ></ng-container>
+  <div class="flex gap-2 justify-center">
+    <button
+      class="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+      (click)="showEdit(row)"
+    >
+      Sửa
+    </button>
+    <button
+      class="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+      (click)="onDelete(row)"
+    >
+      Xoá
+    </button>
   </div>
 </ng-template>
 
-<ng-template
-  #dropdow
-  let-row="row"
-  let-value="value"
-  ngx-datatable-cell-template
->
-  <div class="dropdow" [ngStyle]="dropdownStyles">
-    <ul>
-      <li id="modifier" (click)="showEdit()">
-        <i class="fa-solid fa-pen"></i> Modifier
-      </li>
-      <li (click)="onDelete()">
-        <i class="fa-solid fa-trash"></i> Delete Item
-      </li>
-    </ul>
-  </div>
-</ng-template>
 
 <ng-container *ngIf="isShowedEdit">
   <app-edit-bar

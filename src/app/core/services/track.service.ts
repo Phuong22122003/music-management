@@ -8,7 +8,7 @@ import { Track } from '../models/track';
   providedIn: 'root',
 })
 export class TrackService {
-  apiUrl = 'http://localhost:8181';
+  apiUrl = 'http://localhost:8080/api/v1/tracks';
   constructor(private http: HttpClient) {}
   trackPlay = new Subject<{
     trackUrl: string;
@@ -25,12 +25,16 @@ export class TrackService {
   }
 
   deleteTrack(id: string): Observable<ApiResponse<String>> {
-    return this.http.delete<ApiResponse<String>>(this.apiUrl + '/delete/' + id);
+    return this.http.delete<ApiResponse<String>>(this.apiUrl + '/' + id);
   }
   updateTrack(id: number, formData: FormData) {
     return this.http.put<ApiResponse<Track>>(
-      this.apiUrl + '/update/' + id,
+      this.apiUrl + '/' + id,
       formData
     );
   }
+  uploadTrack(formData: FormData) {
+    return this.http.post(`${this.apiUrl}`, formData);
+  }
+
 }

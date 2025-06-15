@@ -1,0 +1,45 @@
+<div class="fixed inset-0 bg-[rgba(0,0,0,0.2)] flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative">
+    <h2 class="text-lg font-semibold mb-4">Tải lên bài hát mới</h2>
+
+    <form [formGroup]="uploadForm" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <label class="block font-medium mb-1">Tên bài hát</label>
+        <input type="text" formControlName="name" class="w-full border p-2 rounded" />
+      </div>
+
+      <div class="mb-3">
+        <label class="block font-medium mb-1">Nghệ sĩ chính</label>
+        <input type="text" formControlName="mainArtist" class="w-full border p-2 rounded" />
+      </div>
+
+      <div class="mb-3">
+        <label class="block font-medium mb-1">Mô tả</label>
+        <textarea formControlName="description" class="w-full border p-2 rounded"></textarea>
+      </div>
+    <div class="mb-3">
+      <label class="block font-medium mb-1">Thể loại</label>
+      <select formControlName="genreId" class="w-full border p-2 rounded">
+        <option [value]="null" disabled selected>-- Chọn thể loại --</option>
+        <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
+      </select>
+    </div>
+
+      <div class="mb-3">
+        <label class="block font-medium mb-1">Ảnh đại diện</label>
+        <input type="file" accept="image/*" (change)="onFileChange($event, 'image')" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block font-medium mb-1">File nhạc</label>
+        <input type="file" accept="audio/*" (change)="onFileChange($event, 'audio')" required />
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button type="button" (click)="onCancel()" class="px-4 py-2 border rounded">Hủy</button>
+        <button type="submit" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800">Tải lên</button>
+      </div>
+    </form>
+  </div>
+</div>

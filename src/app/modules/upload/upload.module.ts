@@ -9,6 +9,7 @@ import { EditBarComponent } from './components/edit-bar/edit-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../../shared/shared.module';
+import { UploadFormComponent } from './components/upload-form/upload-form.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SharedModule } from '../../shared/shared.module';
     HeaderComponent,
     TracksComponent,
     EditBarComponent,
+    UploadFormComponent,
   ],
   imports: [
     CommonModule,

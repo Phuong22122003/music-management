@@ -1,3 +1,5 @@
+import { Genre } from "./model";
+
 export interface Track {
   idTrack: number;
   nameTrack: string;
@@ -12,4 +14,6 @@ export interface Track {
   description: string;
   mainArtist: string;
   isPublic: boolean;
-}
+  genre: Genre;
+};
+

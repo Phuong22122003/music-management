@@ -1,0 +1,72 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="max-w-md mx-auto p-4 bg-white rounded shadow">
+  <div class="mb-4">
+    <label class="block font-semibold mb-1">Tên thể loại <span class="text-red-500">*</span></label>
+    <input 
+      formControlName="name" 
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+      placeholder="Nhập tên thể loại"
+    />
+    <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-red-600 mt-1 text-sm">
+      Tên thể loại là bắt buộc
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label class="block font-semibold mb-1">Mô tả</label>
+    <textarea 
+      formControlName="description" 
+      rows="3"
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+      placeholder="Mô tả thể loại"
+    ></textarea>
+  </div>
+
+  <div class="mb-4">
+    <label class="block font-semibold mb-1">Trạng thái</label>
+    <select 
+      formControlName="isActive"
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    >
+      <option [value]="true">Kích hoạt</option>
+      <option [value]="false">Không kích hoạt</option>
+    </select>
+  </div>
+
+  <div class="mb-6">
+    <label class="block font-semibold mb-1">Ảnh thể loại</label>
+    <input 
+      type="file" 
+      accept="image/*" 
+      (change)="onFileChange($event)" 
+      class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
+             file:rounded file:border-0
+             file:text-sm file:font-semibold
+             file:bg-indigo-50 file:text-indigo-700
+             hover:file:bg-indigo-100"
+    />
+  </div>
+
+  <div class="flex space-x-4">
+    <button 
+      type="submit" 
+      class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded"
+    >
+      {{ genre ? 'Cập nhật' : 'Tạo mới' }}
+    </button>
+    <button 
+      type="button" 
+      (click)="onCancel()" 
+      class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded"
+    >
+      Hủy
+    </button>
+    <button 
+      *ngIf="genre" 
+      type="button" 
+      (click)="onDelete()" 
+      class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded"
+    >
+      Xóa
+    </button>
+  </div>
+</form>

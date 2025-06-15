@@ -1,10 +1,30 @@
 <app-header></app-header>
+
 <div style="padding: 10px">
-  <h1
-    style="font-size: 20px; font-weight: bold; border-bottom: 1px solid black"
-  >
-    Your tracks
-  </h1>
-  <app-tracks></app-tracks>
+  <div class="mb-4 flex items-center justify-between">
+    <h2 class="text-xl font-semibold">Danh sách bài hát</h2>
+
+    <!-- Button to show popup form -->
+    <button
+      (click)="toggleForm()"
+      class="cursor-pointer px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+    >
+      <i class="fa-solid fa-upload mr-2"></i> Upload Track
+    </button>
+  </div>
+
+  <!-- Upload Form Popup -->
+  <app-upload-form
+    *ngIf="showForm"
+    (uploadSuccess)="handleUploadSuccess()"
+    (cancel)="toggleForm()"
+  ></app-upload-form>
+
+  <!-- Đảm bảo container không giới hạn chiều rộng -->
+  <div class="w-full overflow-x-auto">
+    <app-tracks></app-tracks>
+  </div>
+
 </div>
+
 <app-audio-player></app-audio-player>

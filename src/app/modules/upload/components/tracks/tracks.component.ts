@@ -30,7 +30,7 @@ export class TracksComponent implements OnInit {
   constructor(
     private trackService: TrackService,
     private toastService: ToastService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.columns = [
       { name: 'TITLE', prop: 'title', cellTemplate: this.titleRef },
@@ -58,10 +58,7 @@ export class TracksComponent implements OnInit {
 
   isShowedEdit = false;
 
-  showEdit() {
-    this.isShowedEdit = true;
-    console.log(this.isShowDropdowByRow);
-  }
+
   hideEdit() {
     this.isShowedEdit = false;
   }
@@ -82,12 +79,7 @@ export class TracksComponent implements OnInit {
     this.dropdownStyles = {
       position: 'fixed',
       // top: `${event.clientY}px`,  // Lấy vị trí Y của chuột
-      left: `${event.clientX + 10}px`, // Lấy vị trí X của chuột
-      // background: 'white',
-      // border: '1px solid #ddd',
-      // padding: '5px',
-      // boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
-      // zIndex: '1000',
+      left: `${event.clientX + 10000}px`, // Lấy vị trí X của chuột
     };
   }
   @HostListener('document:click', ['$event'])
@@ -141,18 +133,26 @@ export class TracksComponent implements OnInit {
     });
   }
 
-  onDelete() {
-    console.log(this.selectedRow['idTrack']);
-    this.trackService.deleteTrack(this.selectedRow['idTrack']).subscribe({
-      next: (value) => {
+  showEdit(row: any) {
+    this.selectedRow = row;
+    this.isShowedEdit = true;
+  }
+
+  onDelete(row: any) {
+    this.trackService.deleteTrack(row['idTrack']).subscribe({
+      next: () => {
         this.toastService.toastSuccess.next({
           message: 'Delete track successfully!',
           summary: 'Success',
         });
         this.fetchTrack();
       },
+      error: (err) => {
+        console.error('Failed to delete:', err);
+      },
     });
   }
+
   onPlayAudio(value: any) {
     if (this.urlPlaying !== value['urlTrack']) {
       this.isPlay = true;
