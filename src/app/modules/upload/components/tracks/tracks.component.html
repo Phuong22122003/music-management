@@ -92,6 +92,15 @@
   </div>
 </ng-template>
 
+<app-confirm-dialog
+  [isVisible]="showConfirmDialog"
+  [title]="'Xác nhận xóa'"
+  [message]="'Bạn có chắc chắn muốn xóa track này?'"
+  [confirmText]="'Xóa'"
+  [cancelText]="'Hủy'"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()"
+></app-confirm-dialog>
 
 <ng-container *ngIf="isShowedEdit">
   <app-edit-bar

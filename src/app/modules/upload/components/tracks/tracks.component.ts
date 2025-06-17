@@ -30,7 +30,7 @@ export class TracksComponent implements OnInit {
   constructor(
     private trackService: TrackService,
     private toastService: ToastService
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.columns = [
       { name: 'TITLE', prop: 'title', cellTemplate: this.titleRef },
@@ -57,7 +57,6 @@ export class TracksComponent implements OnInit {
   }
 
   isShowedEdit = false;
-
 
   hideEdit() {
     this.isShowedEdit = false;
@@ -138,19 +137,36 @@ export class TracksComponent implements OnInit {
     this.isShowedEdit = true;
   }
 
+  showConfirmDialog = false;
+  trackToDelete: any = null;
+
   onDelete(row: any) {
-    this.trackService.deleteTrack(row['idTrack']).subscribe({
-      next: () => {
-        this.toastService.toastSuccess.next({
-          message: 'Delete track successfully!',
-          summary: 'Success',
-        });
-        this.fetchTrack();
-      },
-      error: (err) => {
-        console.error('Failed to delete:', err);
-      },
-    });
+    this.trackToDelete = row;
+    this.showConfirmDialog = true;
+  }
+
+  confirmDelete() {
+    if (this.trackToDelete) {
+      this.trackService.deleteTrack(this.trackToDelete['idTrack']).subscribe({
+        next: () => {
+          this.toastService.toastSuccess.next({
+            message: 'Delete track successfully!',
+            summary: 'Success',
+          });
+          this.fetchTrack();
+        },
+        error: (err) => {
+          console.error('Failed to delete:', err);
+        },
+      });
+    }
+    this.showConfirmDialog = false;
+    this.trackToDelete = null;
+  }
+
+  cancelDelete() {
+    this.showConfirmDialog = false;
+    this.trackToDelete = null;
   }
 
   onPlayAudio(value: any) {

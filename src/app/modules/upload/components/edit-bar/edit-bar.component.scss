@@ -38,42 +38,103 @@
     // cursor: not-allowed;
 }
 
-.checkbox-custom {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+// .checkbox-custom {
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
 
+// }
+
+// .checkbox-custom::before {
+//   content: "";
+//   display: inline-block;
+//   width: 20px;
+//   height: 20px;
+//   border-radius: 50%;
+//   border: 2px solid #c2c2c2;
+// }
+
+// .checkbox-custom::after {
+//   content: "";
+//   position: absolute;
+//   left: 4.9px;
+//   top: 6.2px;
+//   display: inline-block;
+//   width: 11px;
+//   height: 11px;
+//   border-radius: 50%;
+//   background-color: transparent;
+// }
+
+// input[type='radio']:checked+.checkbox-custom::before {
+//   border-color: black;
+// }
+
+
+// input[type='radio']:checked+.checkbox-custom::after {
+//   background-color: black;
+// }
+
+/* Ẩn radio mặc định */
+input[type='radio'] {
+  display: none;
 }
 
+/* Wrapper label chứa custom radio + text */
+.checkbox-custom {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding-left: 28px; /* space for custom circle */
+  font-size: 14px;
+  user-select: none;
+}
+
+/* Vòng tròn ngoài */
 .checkbox-custom::before {
-  content: "";
-  display: inline-block;
-  width: 20px;
-  height: 20px;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   border: 2px solid #c2c2c2;
+  background-color: white;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
 }
 
+/* Vòng tròn trong khi checked */
 .checkbox-custom::after {
-  content: "";
+  content: '';
   position: absolute;
-  left: 4.9px;
-  top: 6.2px;
-  display: inline-block;
-  width: 11px;
-  height: 11px;
+  left: 4px;
+  top: calc(50%);
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: black;
   border-radius: 50%;
-  background-color: transparent;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
-input[type='radio']:checked+.checkbox-custom::before {
+/* Khi được chọn: đổi màu viền và hiện vòng trong */
+input[type='radio']:checked + .checkbox-custom::before {
   border-color: black;
 }
 
+input[type='radio']:checked + .checkbox-custom::after {
+  opacity: 1;
+}
 
-input[type='radio']:checked+.checkbox-custom::after {
-  background-color: black;
+/* Hover thêm chút feedback */
+.checkbox-custom:hover::before {
+  border-color: #666;
 }
 
 @keyframes disappear {

@@ -1,0 +1,24 @@
+// Animation cho dialog
+:host {
+  display: block;
+}
+
+.fixed {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Responsive styles
+@media (max-width: 640px) {
+  .max-w-md {
+    margin: 1rem;
+  }
+}

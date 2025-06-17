@@ -17,6 +17,7 @@
       </div>
       <div class="flex justify-center mt-2.5 gap-4">
         <input
+          id="image-input-edit-track"
           type="file"
           style="display: none"
           accept="image/*"
@@ -27,12 +28,13 @@
           <img class="w-[150px] h-[150px]" [src]="imageUrl" alt="" #thumbnail />
         </div>
         <div class="flex flex-col items-center justify-end gap-2.5">
-          <div
+          <label
+            for="image-input-edit-track"
+            id="edit-image-button"
             class="rounded-full px-2.5 py-1.5 border border-gray-500 cursor-pointer"
-            (click)="uploadImage()"
           >
             <i class="fa-solid fa-pen"></i>
-          </div>
+          </label>
           <div
             class="rounded-full px-2.5 py-1.5 border border-gray-500 cursor-pointer"
           >
@@ -128,6 +130,7 @@
       </div>
       <div class="footer">
         <button
+          id="save-button-edit-track"
           [disabled]="editFrom.invalid"
           [class.invalid-button]="editFrom.invalid"
           class="save-button cursor-pointer"

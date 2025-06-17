@@ -19,7 +19,7 @@ import { Genre } from '../../../../core/models/model';
   selector: 'app-edit-bar',
   templateUrl: './edit-bar.component.html',
   styleUrls: ['./edit-bar.component.scss'],
-  standalone:false
+  standalone: false,
 })
 export class EditBarComponent implements OnInit {
   editFrom!: FormGroup;
@@ -64,7 +64,7 @@ export class EditBarComponent implements OnInit {
       description: [this.description],
       main_artists: [this.mainArtists],
       privacy: [this.privacy, Validators.required],
-      genre: [this.genreId, Validators.required],
+      genre: [this.genreId],
     });
 
     this.loadGenres();
@@ -85,7 +85,11 @@ export class EditBarComponent implements OnInit {
     this.renderer.addClass(this.modal.nativeElement, 'animation-disappear');
     this.renderer.removeClass(this.modal.nativeElement, 'animation-appear');
     this.renderer.setStyle(this.dropdown.nativeElement, 'opacity', '0');
-    this.renderer.setStyle(this.dropdown.nativeElement, 'background-color', '#FFF');
+    this.renderer.setStyle(
+      this.dropdown.nativeElement,
+      'background-color',
+      '#FFF'
+    );
     setTimeout(() => {
       this.onClickOutsideEdit.emit(true);
     }, 500);
@@ -107,14 +111,21 @@ export class EditBarComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.editFrom);
     if (this.editFrom.invalid) return;
 
     const formData = new FormData();
     formData.append('title', this.editFrom.value.title);
     formData.append('description', this.editFrom.value.description);
     formData.append('mainArtist', this.editFrom.value.main_artists);
-    formData.append('isPublic', this.editFrom.value.privacy === 'public' ? 'true' : 'false');
-    formData.append('genreId', this.editFrom.value.genre.toString());
+    formData.append(
+      'isPublic',
+      this.editFrom.value.privacy === 'public' ? 'true' : 'false'
+    );
+    formData.append(
+      'genreId',
+      this.editFrom.value.genre ? this.editFrom.value.genre.toString() : null
+    );
 
     const fileInput = this.inputFile.nativeElement.files[0];
     if (fileInput) {
