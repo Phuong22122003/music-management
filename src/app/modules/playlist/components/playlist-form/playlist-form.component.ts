@@ -33,19 +33,19 @@ export class PlaylistFormComponent {
   tracks: Track[] = []; // Tất cả bài hát
   selectedTrackIds: number[] = []; // Bài hát được chọn
 
-ngOnInit(): void {
-  if (this.playlist) {
-    this.form.patchValue({
-      name: this.playlist.name,
-      description: this.playlist.description
-    });
-    this.selectedTrackIds = this.playlist.tracks?.map(t => t.idTrack) || [];
-  }
+  ngOnInit(): void {
+    if (this.playlist) {
+      this.form.patchValue({
+        name: this.playlist.name,
+        description: this.playlist.description
+      });
+      this.selectedTrackIds = this.playlist.tracks?.map(t => t.idTrack) || [];
+    }
 
-  this.trackService.getTrackList().subscribe(res => {
-    this.tracks = res.data;
-  });
-}
+    this.trackService.getTrackList().subscribe(res => {
+      this.tracks = res.data;
+    });
+  }
 
 
   onFileChange(event: any) {
@@ -56,6 +56,11 @@ ngOnInit(): void {
   }
 
   submit() {
+      if (this.form.invalid) {
+        this.form.markAllAsTouched(); // Để hiển thị lỗi
+        return;
+      }
+
     const formData = new FormData();
     const request = {
       ...this.form.value,
@@ -72,17 +77,17 @@ ngOnInit(): void {
 
     request$.subscribe(() => this.saveSuccess.emit());
   }
-toggleTrack(trackId: number, event: Event) {
-  const checked = (event.target as HTMLInputElement).checked;
+  toggleTrack(trackId: number, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
 
-  if (checked) {
-    if (!this.selectedTrackIds.includes(trackId)) {
-      this.selectedTrackIds.push(trackId);
+    if (checked) {
+      if (!this.selectedTrackIds.includes(trackId)) {
+        this.selectedTrackIds.push(trackId);
+      }
+    } else {
+      this.selectedTrackIds = this.selectedTrackIds.filter(id => id !== trackId);
     }
-  } else {
-    this.selectedTrackIds = this.selectedTrackIds.filter(id => id !== trackId);
   }
-}
 
 
 
