@@ -11,6 +11,7 @@ import { PlaylistService } from '../../../../core/services/playlist.service';
 export class PlaylistListComponent {
   playlists: Playlist[] = [];
   expandedPlaylistId: number | null = null;
+  confirmingPlaylist: Playlist | null = null;
 
   constructor(private playlistService: PlaylistService) { }
 
@@ -30,12 +31,21 @@ export class PlaylistListComponent {
 
 
   onDelete(playlist: Playlist) {
-    if (confirm(`Bạn có chắc muốn xoá playlist "${playlist.name}"?`)) {
-      this.playlistService.deletePlaylist(playlist.id).subscribe(() => {
-        this.fetchPlaylists();
-      });
-    }
+     this.confirmingPlaylist = playlist;
   }
+
+  cancelDelete() {
+  this.confirmingPlaylist = null; // đóng modal
+}
+
+confirmDelete() {
+  if (this.confirmingPlaylist) {
+    this.playlistService.deletePlaylist(this.confirmingPlaylist.id).subscribe(() => {
+      this.fetchPlaylists();
+      this.confirmingPlaylist = null; // đóng modal sau khi xoá
+    });
+  }
+}
   showForm = false;
   selectedPlaylist: Playlist | null = null;
 
