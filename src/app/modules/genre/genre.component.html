@@ -3,9 +3,9 @@
   <div class="flex items-center justify-between mb-4">
     <button
       (click)="onAdd()"
-      class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded"
+      class="btnAdd bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded"
     >
-      + Thêm thể loại
+      Thêm thể loại
     </button>
 
     <!-- Nút sắp xếp -->
@@ -34,30 +34,35 @@
   <!-- Danh sách thể loại -->
   <ul class="space-y-3">
     <li
-      *ngFor="let genre of genres"
-      class="flex items-center justify-between bg-white p-4 rounded shadow"
+  *ngFor="let genre of genres"
+  [ngClass]="{
+    'bg-white': genre.isActive,
+    'bg-red-100 text-red-700 line-through': !genre.isActive
+  }"
+  class="flex items-center justify-between p-4 rounded shadow"
+>
+  <div>
+    <p class="font-semibold text-lg">{{ genre.name }}</p>
+    <p class="text-sm">
+      {{ genre.tracks?.length || 0 }} bài hát
+    </p>
+  </div>
+  <div class="space-x-2">
+    <button
+      (click)="onEdit(genre)"
+      class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded"
     >
-      <div>
-        <p class="font-semibold text-lg text-gray-800">{{ genre.name }}</p>
-        <p class="text-sm text-gray-500">
-          {{ genre.tracks?.length || 0 }} bài hát
-        </p>
-      </div>
-      <div class="space-x-2">
-        <button
-          (click)="onEdit(genre)"
-          class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded"
-        >
-          Sửa
-        </button>
-        <button
-          (click)="onDelete(genre)"
-          class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-        >
-          Xóa
-        </button>
-      </div>
-    </li>
+      Sửa
+    </button>
+    <button
+      (click)="onDelete(genre)"
+      class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+    >
+      Xóa
+    </button>
+  </div>
+</li>
+
   </ul>
 </div>
 
