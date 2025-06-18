@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Playlist } from '../../../../core/models/model';
 import { PlaylistService } from '../../../../core/services/playlist.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-playlist-list',
@@ -15,6 +16,14 @@ export class PlaylistListComponent {
 
   constructor(private playlistService: PlaylistService) { }
 
+
+  searchTerm = ''; 
+
+  get filteredPlaylists(): Playlist[] {
+    return this.playlists.filter(p =>
+      p.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
   toggleExpand(playlistId: number) {
     this.expandedPlaylistId = this.expandedPlaylistId === playlistId ? null : playlistId;
   }

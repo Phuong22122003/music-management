@@ -1,13 +1,24 @@
 <div class="p-4">
-  <button
-    (click)="onAdd()"
-    class="bg-green-600 text-white px-4 py-2 rounded mb-4 hover:bg-green-700"
-  >
-    Thêm playlist
-  </button>
+  <div class="flex gap-10">
+    <button
+      (click)="onAdd()"
+      class="bg-green-600 text-white px-4 py-2 rounded mb-4 hover:bg-green-700"
+    >
+      Thêm playlist
+    </button>
+    <div class="mb-4 w-100">
+      <input
+        type="text"
+        placeholder="Tìm kiếm playlist theo tên..."
+        [(ngModel)]="searchTerm"
+        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+      />
+    </div>
+
+  </div>
 
   <ul class="space-y-2">
-    <li *ngFor="let playlist of playlists" class="p-4 border rounded">
+    <li *ngFor="let playlist of filteredPlaylists" class="p-4 border rounded">
       <div class="flex justify-between items-center">
         <div>
           <strong>{{ playlist.name }}</strong> <br />
@@ -126,7 +137,7 @@
                 </div>
                 <div class="text-xs text-gray-400 mt-2 space-y-1">
                   <p>🗂 Thể loại: {{ track.genre?.name || "Không có" }}</p>
-                  <p>📧 Email người đăng: {{ track.userName }}</p>
+                  <p>📧 Tên người đăng: {{ track.userName }}</p>
                   <p>📅 Ngày tạo: {{ track.createdAt }}</p>
                 </div>
               </div>
@@ -160,7 +171,7 @@
 <!-- Modal xác nhận xoá -->
 <div
   *ngIf="confirmingPlaylist"
-  class="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center"
+  class="fixed inset-0 bg-black/20  flex items-center justify-center"
 >
   <div class="bg-white p-6 rounded-lg shadow-lg z-50 max-w-sm w-full">
     <h2 class="text-lg font-semibold mb-4">Xác nhận xoá</h2>
