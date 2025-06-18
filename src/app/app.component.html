@@ -1,16 +1,31 @@
 <div class="layout-container flex h-screen">
   <!-- Sidebar -->
-  <div class="w-60 bg-gray-900 text-white p-4">
+  <div class="w-60 bg-gray-900 text-white p-4" *ngIf="!isLoginRoute()">
     <h2 class="text-xl font-bold mb-6">Music Manager</h2>
     <ul class="space-y-4">
-      <li class="cursor-pointer hover:bg-gray-700 p-2 rounded" routerLink="/genres">
+      <li
+        class="cursor-pointer hover:bg-gray-700 p-2 rounded"
+        routerLink="/genres"
+      >
         <i class="fa fa-music mr-2"></i> Genre
       </li>
-      <li class="cursor-pointer hover:bg-gray-700 p-2 rounded" routerLink="/tracks">
+      <li
+        class="cursor-pointer hover:bg-gray-700 p-2 rounded"
+        routerLink="/tracks"
+      >
         <i class="fa fa-headphones mr-2"></i> Track
       </li>
-      <li class="cursor-pointer hover:bg-gray-700 p-2 rounded" routerLink="/playlists">
+      <li
+        class="cursor-pointer hover:bg-gray-700 p-2 rounded"
+        routerLink="/playlists"
+      >
         <i class="fa fa-list mr-2"></i> Playlist
+      </li>
+      <li
+        class="cursor-pointer hover:bg-gray-700 p-2 rounded"
+        (click)="logout()"
+      >
+        <i class="fa fa-sign-out mr-2"></i> Logout
       </li>
     </ul>
   </div>

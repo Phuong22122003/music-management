@@ -15,7 +15,9 @@ export class GenreService {
   getGenres(): Observable<ApiResponse<Genre[]>> {
     return this.http.get<ApiResponse<Genre[]>>(this.apiUrl);
   }
-
+  getActiveGenres(): Observable<ApiResponse<Genre[]>> {
+    return this.http.get<ApiResponse<Genre[]>>(`${this.apiUrl}/active`);
+  }
     createGenre(formData: FormData) {
     return this.http.post<ApiResponse<Genre>>(`${this.apiUrl}`, formData);
     }

@@ -43,7 +43,7 @@ export class UploadFormComponent implements OnInit {
   }
 
   loadGenres(): void {
-    this.genreService.getGenres().subscribe(
+    this.genreService.getActiveGenres().subscribe(
       (data) => {
         this.genres = data.data;
       },

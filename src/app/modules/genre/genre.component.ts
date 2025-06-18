@@ -12,6 +12,7 @@ export class GenreComponent {
   genres: Genre[] = [];
   showForm = false;
   selectedGenre: Genre | null = null;
+  confirmDeleteGenre: Genre | null = null;
 
   constructor(private genreService: GenreService) {}
 
@@ -36,11 +37,20 @@ export class GenreComponent {
   }
 
   onDelete(genre: Genre) {
-    if (confirm(`Bạn có chắc muốn xóa thể loại "${genre.name}" không?`)) {
-      this.genreService.deleteGenre(genre.id).subscribe(() => {
+  // Mở modal xác nhận thay vì confirm()
+  this.confirmDeleteGenre = genre;
+  }
+  confirmDelete() {
+    if (this.confirmDeleteGenre) {
+      this.genreService.deleteGenre(this.confirmDeleteGenre.id).subscribe(() => {
         this.loadGenres();
+        this.confirmDeleteGenre = null;
       });
     }
+  }
+
+  cancelDelete() {
+    this.confirmDeleteGenre = null;
   }
 
   onCancel() {
@@ -50,5 +60,24 @@ export class GenreComponent {
   onSaveSuccess() {
     this.showForm = false;
     this.loadGenres();
+  }
+
+  /** 🔑 MỚI: Sắp xếp theo tên A-Z */
+  sortByName() {
+    this.genres = [...this.genres].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+  }
+
+  /** 🔑 MỚI: Sắp xếp theo số lượng bài hát giảm dần */
+  sortByTrackCount() {
+    this.genres = [...this.genres].sort((a, b) =>
+      (b.tracks?.length || 0) - (a.tracks?.length || 0)
+    );
+  }
+    sortByCreatedAt() {
+    this.genres = [...this.genres].sort((a, b) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
   }
 }

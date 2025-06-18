@@ -1,16 +1,40 @@
 <div class="p-4">
-  <!-- Thêm thể loại -->
-  <button 
-    (click)="onAdd()" 
-    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded mb-4"
-  >
-    + Thêm thể loại
-  </button>
+  <!-- Hàng trên: Thêm + Sort -->
+  <div class="flex items-center justify-between mb-4">
+    <button
+      (click)="onAdd()"
+      class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded"
+    >
+      + Thêm thể loại
+    </button>
+
+    <!-- Nút sắp xếp -->
+    <div class="space-x-2">
+      <button
+        (click)="sortByName()"
+        class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-3 py-1 rounded"
+      >
+        Sắp xếp A-Z
+      </button>
+      <button
+        (click)="sortByTrackCount()"
+        class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-3 py-1 rounded"
+      >
+        Sắp xếp theo số bài hát
+      </button>
+       <button
+      (click)="sortByCreatedAt()"
+      class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-3 py-1 rounded"
+    >
+      Mới nhất
+    </button>
+    </div>
+  </div>
 
   <!-- Danh sách thể loại -->
   <ul class="space-y-3">
-    <li 
-      *ngFor="let genre of genres" 
+    <li
+      *ngFor="let genre of genres"
       class="flex items-center justify-between bg-white p-4 rounded shadow"
     >
       <div>
@@ -20,14 +44,14 @@
         </p>
       </div>
       <div class="space-x-2">
-        <button 
-          (click)="onEdit(genre)" 
+        <button
+          (click)="onEdit(genre)"
           class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded"
         >
           Sửa
         </button>
-        <button 
-          (click)="onDelete(genre)" 
+        <button
+          (click)="onDelete(genre)"
           class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
         >
           Xóa
@@ -45,5 +69,27 @@
       (cancel)="onCancel()"
       (saveSuccess)="onSaveSuccess()"
     ></app-genre-form>
+  </div>
+</div>
+<!-- Modal xác nhận xóa -->
+<div *ngIf="confirmDeleteGenre" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-center">
+    <h2 class="text-xl font-semibold mb-4">Xác nhận xóa</h2>
+    <p class="mb-6">Bạn có chắc chắn muốn xóa thể loại
+      <span class="font-bold">{{ confirmDeleteGenre.name }}</span> không?</p>
+    <div class="flex justify-center space-x-4">
+      <button
+        (click)="confirmDelete()"
+        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+      >
+        Xóa
+      </button>
+      <button
+        (click)="cancelDelete()"
+        class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded"
+      >
+        Hủy
+      </button>
+    </div>
   </div>
 </div>
