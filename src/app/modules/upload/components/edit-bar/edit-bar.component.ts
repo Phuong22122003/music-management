@@ -122,10 +122,9 @@ export class EditBarComponent implements OnInit {
       'isPublic',
       this.editFrom.value.privacy === 'public' ? 'true' : 'false'
     );
-    formData.append(
-      'genreId',
-      this.editFrom.value.genre ? this.editFrom.value.genre.toString() : null
-    );
+    if (this.editFrom.value.genre) {
+      formData.append('genreId', this.editFrom.value.genre.toString());
+    }
 
     const fileInput = this.inputFile.nativeElement.files[0];
     if (fileInput) {
