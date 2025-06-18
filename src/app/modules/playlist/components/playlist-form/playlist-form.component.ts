@@ -28,8 +28,8 @@ export class PlaylistFormComponent {
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: [''],
+      name: ['', [Validators.required, Validators.maxLength(100)]],
+      description: ['',Validators.maxLength(255)],
     });
   }
 
