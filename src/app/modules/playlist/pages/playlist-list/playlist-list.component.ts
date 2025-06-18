@@ -16,8 +16,8 @@ export class PlaylistListComponent {
   constructor(private playlistService: PlaylistService) { }
 
   toggleExpand(playlistId: number) {
-  this.expandedPlaylistId = this.expandedPlaylistId === playlistId ? null : playlistId;
-}
+    this.expandedPlaylistId = this.expandedPlaylistId === playlistId ? null : playlistId;
+  }
 
   ngOnInit(): void {
     this.fetchPlaylists();
@@ -31,21 +31,21 @@ export class PlaylistListComponent {
 
 
   onDelete(playlist: Playlist) {
-     this.confirmingPlaylist = playlist;
+    this.confirmingPlaylist = playlist;
   }
 
   cancelDelete() {
-  this.confirmingPlaylist = null; // đóng modal
-}
-
-confirmDelete() {
-  if (this.confirmingPlaylist) {
-    this.playlistService.deletePlaylist(this.confirmingPlaylist.id).subscribe(() => {
-      this.fetchPlaylists();
-      this.confirmingPlaylist = null; // đóng modal sau khi xoá
-    });
+    this.confirmingPlaylist = null; // đóng modal
   }
-}
+
+  confirmDelete() {
+    if (this.confirmingPlaylist) {
+      this.playlistService.deletePlaylist(this.confirmingPlaylist.id).subscribe(() => {
+        this.fetchPlaylists();
+        this.confirmingPlaylist = null; // đóng modal sau khi xoá
+      });
+    }
+  }
   showForm = false;
   selectedPlaylist: Playlist | null = null;
 
@@ -67,6 +67,21 @@ confirmDelete() {
   onSaveSuccess() {
     this.fetchPlaylists();
     this.showForm = false;
+  }
+  trackSortOrderMap = new Map<number, boolean>(); // Lưu trạng thái sắp xếp tăng/giảm theo playlist id
+
+  toggleSortByName(playlist: Playlist) {
+    const isAscending = this.trackSortOrderMap.get(playlist.id) ?? true;
+
+    // Sort danh sách bài hát
+    playlist.tracks = [...(playlist.tracks || [])].sort((a, b) => {
+      const nameA = a.nameTrack?.toLowerCase() || '';
+      const nameB = b.nameTrack?.toLowerCase() || '';
+      return isAscending ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+    });
+
+    // Cập nhật trạng thái sắp xếp
+    this.trackSortOrderMap.set(playlist.id, !isAscending);
   }
 
 }

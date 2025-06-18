@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PlaylistService } from '../../../../core/services/playlist.service';
 import { TrackService } from '../../../../core/services/track.service';
 import { Track } from '../../../../core/models/track';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-playlist-form',
@@ -15,6 +16,7 @@ export class PlaylistFormComponent {
   @Input() playlist: Playlist | null = null;
   @Output() cancel = new EventEmitter<void>();
   @Output() saveSuccess = new EventEmitter<void>();
+  activeTab: 'info' | 'tracks' = 'info';
 
   form: FormGroup;
   imageFile?: File;
@@ -22,7 +24,8 @@ export class PlaylistFormComponent {
   constructor(
     private fb: FormBuilder,
     private playlistService: PlaylistService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private toastr: ToastrService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -56,10 +59,10 @@ export class PlaylistFormComponent {
   }
 
   submit() {
-      if (this.form.invalid) {
-        this.form.markAllAsTouched(); // Để hiển thị lỗi
-        return;
-      }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched(); // Để hiển thị lỗi
+      return;
+    }
 
     const formData = new FormData();
     const request = {
@@ -75,7 +78,15 @@ export class PlaylistFormComponent {
       ? this.playlistService.updatePlaylist(this.playlist.id, formData)
       : this.playlistService.createPlaylist(formData);
 
-    request$.subscribe(() => this.saveSuccess.emit());
+    request$.subscribe({
+      next: () => {
+        this.toastr.success('Playlist đã được lưu thành công');
+        this.saveSuccess.emit();
+      },
+      error: () => {
+        this.toastr.error('Có lỗi xảy ra khi lưu playlist');
+      }
+    });
   }
   toggleTrack(trackId: number, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;

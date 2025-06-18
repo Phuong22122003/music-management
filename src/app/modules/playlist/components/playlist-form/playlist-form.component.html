@@ -3,41 +3,65 @@
   (ngSubmit)="submit()"
   class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto space-y-4"
 >
-  <h2 class="text-xl font-bold">
+  <h2 class="text-xl font-bold mb-4">
     {{ playlist ? "Cập nhật Playlist" : "Tạo Playlist" }}
   </h2>
 
-  <div>
-    <label class="block font-medium">Tên playlist *</label>
-    <input
-      type="text"
-      formControlName="name"
-      class="w-full p-2 border rounded"
-    />
-    <div
-      *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
-      class="text-red-500 text-sm"
+  <!-- Tabs -->
+  <div class="flex border-b mb-4">
+    <button
+      type="button"
+      class="px-4 py-2 font-medium"
+      [ngClass]="{
+        'border-b-2 border-blue-600 text-blue-600': activeTab === 'info',
+        'text-gray-500': activeTab !== 'info'
+      }"
+      (click)="activeTab = 'info'"
     >
-      Tên playlist là bắt buộc
+      Thông tin
+    </button>
+    <button
+      type="button"
+      class="px-4 py-2 font-medium"
+      [ngClass]="{
+        'border-b-2 border-blue-600 text-blue-600': activeTab === 'tracks',
+        'text-gray-500': activeTab !== 'tracks'
+      }"
+      (click)="activeTab = 'tracks'"
+    >
+      Bài hát
+    </button>
+  </div>
+
+  <!-- Tab 1: Info -->
+  <div *ngIf="activeTab === 'info'" class="space-y-4">
+    <div>
+      <label class="block font-medium">Tên playlist *</label>
+      <input type="text" formControlName="name" class="w-full p-2 border rounded" />
+      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-red-500 text-sm">
+        Tên playlist là bắt buộc
+      </div>
+    </div>
+
+    <div>
+      <label class="block font-medium">Mô tả</label>
+      <textarea formControlName="description" class="w-full p-2 border rounded"></textarea>
+    </div>
+
+    <div>
+      <label class="block font-medium">Ảnh playlist</label>
+      <input type="file" (change)="onFileChange($event)" class="w-full" />
     </div>
   </div>
 
-  <div>
-    <label class="block font-medium">Mô tả</label>
-    <textarea
-      formControlName="description"
-      class="w-full p-2 border rounded"
-    ></textarea>
-  </div>
-
-  <div>
-    <label class="block font-medium">Ảnh playlist</label>
-    <input type="file" (change)="onFileChange($event)" class="w-full" />
-  </div>
-  <div>
-    <label class="block font-medium mb-1">Chọn bài hát thêm vào playlist</label>
-    <div class="max-h-60 overflow-y-auto border rounded p-3 space-y-1">
-      <label *ngFor="let track of tracks" class="block text-sm">
+  <!-- Tab 2: Tracks -->
+  <div *ngIf="activeTab === 'tracks'" class="space-y-3">
+    <label class="block font-medium mb-1">Chọn bài hát</label>
+    <div class="max-h-60 overflow-y-auto border rounded p-3 grid grid-cols-1 gap-3">
+      <div
+        *ngFor="let track of tracks"
+        class="flex items-center gap-3 p-2 border rounded hover:shadow transition"
+      >
         <input
           type="checkbox"
           [value]="track.idTrack"
@@ -45,23 +69,25 @@
           (change)="toggleTrack(track.idTrack, $event)"
           class="mr-2"
         />
-        {{ track.nameTrack }} - {{ track.mainArtist }}
-      </label>
+        <img
+          [src]="track.image"
+          alt="track image"
+          class="w-14 h-14 object-cover rounded"
+        />
+        <div class="text-sm">
+          <p class="font-medium">{{ track.nameTrack }}</p>
+          <p class="text-gray-500">{{ track.mainArtist }}</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="flex justify-end gap-2">
-    <button
-      type="submit"
-      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-    >
+  <!-- Buttons -->
+  <div class="flex justify-end gap-2 pt-4">
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
       {{ playlist ? "Cập nhật" : "Tạo mới" }}
     </button>
-    <button
-      type="button"
-      (click)="onCancel()"
-      class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
-    >
+    <button type="button" (click)="onCancel()" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
       Hủy
     </button>
   </div>
