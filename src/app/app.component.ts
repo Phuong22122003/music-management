@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastService } from './core/services/toast.service';
 import { Subject, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +18,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
+    private authService: AuthService
   ) {}
+
+  isLoginRoute(): boolean {
+    return this.router.url === '/login';
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+    this.toastr.success('Logged out successfully', 'Success');
+  }
 
   ngOnInit(): void {
     this.subscriptionError = this.toastService.toastError.subscribe(

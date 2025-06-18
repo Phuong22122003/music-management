@@ -24,6 +24,7 @@ export class TracksComponent implements OnInit {
   selectedRow: any;
   isPlay: boolean = false;
   urlPlaying: string = '';
+  genreId: number | null = null;
   @ViewChild('title', { static: true }) titleRef!: TemplateRef<any>;
   @ViewChild('engagements', { static: true }) engagementsRef!: TemplateRef<any>;
   @ViewChild('action', { static: true }) actionRef!: TemplateRef<any>;
@@ -134,6 +135,11 @@ export class TracksComponent implements OnInit {
 
   showEdit(row: any) {
     this.selectedRow = row;
+    const track = this.trackList.find(
+      (item) => item.idTrack === row['idTrack']
+    );
+    this.genreId = track?.genre?.id ?? null;
+
     this.isShowedEdit = true;
   }
 

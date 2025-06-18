@@ -104,6 +104,22 @@
 
 <ng-container *ngIf="isShowedEdit">
   <app-edit-bar
+    *ngIf="genreId !== null"
+    style="z-index: 9999"
+    [title]="selectedRow['title']['name']"
+    [imageUrl]="selectedRow['title']['imageUrl']"
+    [description]="selectedRow['description']"
+    [mainArtists]="selectedRow['mainArtist']"
+    [privacy]="selectedRow['isPublic'] ? 'public' : 'private'"
+    [genreId]="genreId"
+    [id]="selectedRow['idTrack']"
+    (onClickOutsideEdit)="hideEdit()"
+    (updateSuccess)="fetchTrack()"
+    class="relative"
+  ></app-edit-bar>
+
+  <app-edit-bar
+    *ngIf="genreId === null"
     style="z-index: 9999"
     [title]="selectedRow['title']['name']"
     [imageUrl]="selectedRow['title']['imageUrl']"
