@@ -17,7 +17,7 @@ export class GenreFormComponent implements OnInit {
 
   form!: FormGroup;
   imageFile: File | null = null;
-
+  serverError: string | null = null;
   constructor(private fb: FormBuilder, private genreService: GenreService) { }
 
   ngOnInit() {
@@ -57,17 +57,20 @@ export class GenreFormComponent implements OnInit {
       formData.append('image', this.imageFile);
     }
 
-    if (this.genre) {
-      this.genreService.updateGenre(this.genre.id, formData).subscribe(() => {
-        alert('Cập nhật thể loại thành công');
+    const request$ = this.genre
+      ? this.genreService.updateGenre(this.genre.id, formData)
+      : this.genreService.createGenre(formData);
+
+    request$.subscribe({
+      next: () => {
+        this.serverError = null;
+        alert(this.genre ? 'Cập nhật thể loại thành công' : 'Tạo thể loại thành công');
         this.saveSuccess.emit();
-      });
-    } else {
-      this.genreService.createGenre(formData).subscribe(() => {
-        alert('Tạo thể loại thành công');
-        this.saveSuccess.emit();
-      });
-    }
+      },
+      error: (err) => {
+        this.serverError = err?.error?.message || 'Đã xảy ra lỗi. Vui lòng thử lại!';
+      },
+    });
   }
 
 
