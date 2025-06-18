@@ -137,7 +137,7 @@
                 </div>
                 <div class="text-xs text-gray-400 mt-2 space-y-1">
                   <p>🗂 Thể loại: {{ track.genre?.name || "Không có" }}</p>
-                  <p>📧 Tên người đăng: {{ track.userName }}</p>
+                  <p>📧 Ca sĩ: {{ track?.mainArtist ||"Không có"}}</p>
                   <p>📅 Ngày tạo: {{ track.createdAt }}</p>
                 </div>
               </div>
