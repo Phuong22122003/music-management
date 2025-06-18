@@ -48,7 +48,7 @@
         class="text-red-500 text-sm mt-1"
       >
         <div *ngIf="form.get('name')?.errors?.['required']">
-          Tên không được để trống.
+          Tên playlist là bắt buộc
         </div>
         <div *ngIf="form.get('name')?.errors?.['maxlength']">
           Tên không được vượt quá 100 ký tự.
